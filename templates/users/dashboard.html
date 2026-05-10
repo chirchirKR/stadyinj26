@@ -1,0 +1,121 @@
+<!DOCTYPE HTML>
+{% load static %}
+<html lang="en-us">
+<head>
+  <title>Stady | Dashboard</title>
+  <meta charset="utf-8"/>
+  <meta http-equiv="Content-Type=text/html"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <meta name="author" content="Derick K. Chirchir"/>
+  <link rel="stylesheet" href="{% static 'users/style.css' %}?v=1.1.4"/>
+</head>
+<body>
+  <section class="navigation" id="navigation">
+    <div class="menu-part">
+      <div class="close-icon" onclick="document.getElementById('navigation').className = 'navigation-off'"></div>     
+    </div>
+    <div class="stadyname navigation-header">
+      <h2>STADYIN J26</h2>
+    </div>
+    <div class="navs-a">
+      <a href="{% url 'dashboard' %}" style="background: rgba(50,50,105,50%); color: lightgrey;">Dashboard</a>
+      <a href="{% url 'announcement' %} ">Announcements
+        {% if num_of_announcements > length_ %}
+        <sup>•</sup>
+        {% endif %}
+      </a>
+      <!--a>Profile</a>
+      <a>Log Out</a-->
+    </div>
+  <footer class="foot-nav">
+    <p>All Rights Reserved • &copy;2026 • Prere_Dev</p>
+  </footer>
+  </section>
+  <header>
+    <div class="stadyname">
+      <h2>STADYIN J26</h2>
+    </div>
+    <div class="sign-in">
+      {% if request.user.is_authenticated %}
+      {% else %}
+      <p>Sign In</p>
+      {% endif %}
+    </div>
+    <div class="menu-part">
+      <div class="menu-icon" onclick="document.getElementById('navigation').className = 'navigation-on'"></div>
+    </div>
+  </header>
+  
+  <section class="body-posts">
+    {% if posts %}
+    {% for post in posts %}
+    <div class="post-div">
+      <div class="post-user-details">
+        <img class="user-dp" alt="" src="" onerror="this.src=`{% static 'users/dp.svg' %}`"/>
+        <p>
+          <span class="user-name">{{ post.author.username }}</span>
+          <br>
+          <span class="user-tag">Class Rep J26</span>
+        </p>
+      </div>
+      <div class="post-user-content">
+        <p class="post-text">{{ post.content }}</p>
+        {% if post.image %}
+        <img class="post-img" alt="" src="{{ post.image.url }}" onerror="this.className='imgerr';this.src=`{% static 'users/img.try.svg' %}`;"/>
+        {% endif %}
+      </div>
+      <div class="post-reacts">
+        <!--p>1.2M Likes</p>
+        <p>122K Comments</p>
+        <p>682K Dislikes</p-->
+      </div>
+    </div>
+    {% endfor %}
+    {% endif %}
+    <!--div class="post-div">
+      <div class="post-user-details">
+        <img class="user-dp" alt="" src="" onerror="this.src=''"/>
+        <p>
+          <span class="user-name">@kim_chacha-1611</span>
+          <br>
+          <span class="user-tag">Class Rep J26</span>
+        </p>
+      </div>
+      <div class="post-user-content">
+        <p class="post-text">Welcome to Gboard clipboard, any text you copy will be saved here.Touch and hold a clip to pin it. Unpinned clips will be deleted after 1 hour.</p>
+        <img class="post-img"  alt="" src="" onerror="this.className='imgerr';this.src='';"/>
+      </div>
+      <div class="post-reacts">
+        <p>1.2M Likes</p>
+        <p>122K Comments</p>
+        <p>682K Dislikes</p>
+      </div>
+    </div>
+    
+    <div class="post-div">
+      <div class="post-user-details">
+        <img class="user-dp" alt="" src="" onerror="this.src='./dp.svg'"/>
+        <p>
+          <span class="user-name">Ad-Sense</span>
+          <br>
+          <span class="user-tag">Sponsored ★</span>
+        </p>
+      </div>
+      <div class="post-user-content">
+        <p class="post-text">Welcome to Gboard clipboard, any text you copy will be saved here.Touch and hold a clip to pin it. Unpinned clips will be deleted after 1 hour.</p>
+        <video class="post-video" onerror="this.style.display='none'" controls>
+          <source src=""/>
+        </video>
+      </div>
+      <div class="post-reacts">
+        <p>1.2M Likes</p>
+        <p>122K Comments</p>
+        <p>682K Dislikes</p>
+      </div>
+    </div-->
+  </section>
+  <footer>
+    <p>All Rights Reserved • &copy;2026 • Prere_Dev</p>
+  </footer>
+</body>
+</html>

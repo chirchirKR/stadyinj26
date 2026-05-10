@@ -1,0 +1,140 @@
+<!DOCTYPE HTML>
+{% load static %}
+<html lang="en-us">
+<head>
+  <title>Stadyin J26 | Dashboard</title>
+  <meta charset="utf-8"/>
+  <meta http-equiv="Content-Type=text/html"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <meta name="author" content="Derick K. Chirchir"/>
+  <link rel="stylesheet" href="{% static 'users/style.css' %}?v=1.1.4"/>
+</head>
+<body>
+  <section class="navigation" id="navigation">
+    <div class="menu-part">
+      <div class="close-icon" onclick="document.getElementById('navigation').className = 'navigation-off'"></div>     
+    </div>
+    <div class="stadyname navigation-header">
+      <h2>STADYIN J26</h2>
+    </div>
+    <div class="navs-a">
+      <a href="{% url 'dashboard' %}">Dashboard</a>
+      
+      <a href="{% url 'announcement' %}" style="background: rgba(50,50,105,50%); color: lightgrey;">Announcements
+        {% if num_of_announcements > length_ %}
+        <sup>•</sup>
+        {% endif %}
+      </a>
+      <!--a>Profile</a>
+      <a>Log Out</a-->
+    </div>
+  <footer class="foot-nav">
+    <p>All Rights Reserved • &copy;2026 • Prere_Dev</p>
+  </footer>
+  </section>
+  <header>
+    <div class="stadyname">
+      <h2>STADYIN J26</h2>
+    </div>
+    <div class="sign-in">
+      <!--p>Sign In</p-->
+    </div>
+    <div class="menu-part">
+      <div class="menu-icon" onclick="document.getElementById('navigation').className = 'navigation-on'"></div>
+    </div>
+  </header>
+  <section class="body-announcement">
+    <div class="navs-announce">
+      {% if num_of_announcements %}
+      <p><b style="color: orangered; text-decoration: underline">{{ num_of_announcements }}</b> All</p>
+      {% else %}
+      <p><b style="color: orangered; text-decoration: underline">0</b> All</p>
+      {% endif %}
+      {% if unread %}
+      <p><b style="color: orangered; text-decoration: underline">{{ unread }}</b> Unread</p>
+      {% else %}
+      <p><b style="color: orangered; text-decoration: underline">0</b> Unread</p>
+      {% endif %}
+    </div>
+    <div class="notifs">
+      {% if notifs %}
+      {% for notif in notifs %}
+      {% if notif.id in read_notifs %}
+      <div class="notif notif-read" id="notif{{ notif.id }}">
+        {% else %}
+        <div class="notif notif-not-read" id="notif{{ notif.id }}">
+          {% endif %}          
+        <img src="" onerror="this.src=`{% static 'users/dp.svg' %}`">
+        <div class="notif-details">
+          <p class="from-who">{{ notif.author }}</p>
+          <p class="notif-title">{{ notif.subject }}</p>
+          <p><a id="abd{{ notif.id }}" class="bd{{ notif.id }}" onclick="board(this.innerText, this.className, this.id); htmlfy('bd{{ notif.id }}', document.getElementById(`bd{{ notif.id }}`).innerText,{{ notif.id }});">See More</a></p>
+          <div id="bd{{ notif.id }}" class="msg-board">{{ notif.content }}
+          </div>
+          
+        </div>
+      </div>
+      {% endfor %}
+      {% endif %}
+      <!--div class="notif">
+        <img src="" onerror="this.src=`{% static 'users/dp.svg' %}`">
+        <div class="notif-details">
+          <p class="from-who">Stadying</p>
+          <p class="notif-title">A Memo concerning </p>
+          <p><a id="abd2" class="bd2" onclick="board(this.innerText, this.className, this.id)">See More</a></p>
+          <div id="bd2" class="msg-board">
+          </div>
+        </div>
+      </div-->
+    </div>
+  </section>
+  <footer>
+    <p>All Rights Reserved • &copy;2026</p>
+  </footer>
+  <script type="text/javascript">
+  let closed = true;
+function board(text, id, aid) {
+  if (!closed) {
+    closed = true;
+    let bd = document.getElementById(id);
+    bd.style.display = 'none';
+    document.getElementById(aid).innerText = "See more..";
+    return;
+  }
+  if (closed) {
+    closed = false;
+    let bd = document.getElementById(id);
+    bd.style.display = 'block';
+    document.getElementById(aid).innerText = "Close";
+    return;
+  }
+}
+    
+let clicked = [];    
+function htmlfy(id,text, notifId) {
+  if (clicked.includes(id)) {
+    return;
+  }
+  clicked.push(id);
+  document.getElementById(id).innerHTML = text;//document.getElementById(`bd{{ notif.id }}`).innerText;
+  
+  readNotif(notifId);
+}
+    
+function readNotif(id) {
+  fetch(`/read/notification/${id}/`,{
+    method: "POST",
+    headers: {
+      "X-CSRFToken": "{{ csrf_token }}"
+    }
+  })
+  .then(res => res.json())
+  .then((res) => {
+    if (res.status == "read") {
+    document.getElementById(`notif${id}`).className = "notif notif-read";
+    }
+  });
+}  
+  </script>
+</body>
+</html>

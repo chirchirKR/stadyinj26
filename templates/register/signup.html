@@ -1,0 +1,31 @@
+<!DOCTYPE HTML>
+{% load static %}
+<html lang="en-us">
+<head>
+  <title>Stadyin J26 | Sign Up</title>
+  <meta charset="utf-8"/>
+  <meta http-equiv="Content-Type=text/html"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <meta name="author" content="Derick K. Chirchir"/>
+  <link rel="stylesheet" href="{% static 'users/style.css' %}?v=1.1.4"/>
+</head>
+<body>
+ 
+  <header>
+    <div class="stadyname">
+      <h2>STADYIN J26</h2>
+    </div>
+  </header>
+  
+  <section class="signup-board">
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="btn-signin">Sign Up</button>
+    </form>
+  </section>
+  <footer>
+    <p>All Rights Reserved • &copy;2026 • Prere_Dev</p>
+  </footer>
+</body>
+</html>

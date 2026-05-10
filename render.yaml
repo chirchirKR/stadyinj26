@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: stadyinj26
+    env: python
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn stadyinj26.wsgi:application"
+    envVars:
+      - key: DEBUG
+        value: False
